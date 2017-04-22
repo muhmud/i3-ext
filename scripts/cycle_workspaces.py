@@ -34,7 +34,7 @@ class FocusWatcher:
         self.cycler.add(workspace_id)
  
     def on_key_release(self, i3conn, event):
-        if event.change == 'Win':
+        if event.change == '133' or event.change == '134':
             self.cycler.release()
         
     def launch_i3(self):

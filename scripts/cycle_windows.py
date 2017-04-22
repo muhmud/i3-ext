@@ -33,7 +33,7 @@ class FocusWatcher:
         self.cycler.add(window_id)
  
     def on_key_release(self, i3conn, event):
-        if event.change == 'Alt':
+        if event.change == '64':
             self.cycler.release()
         
     def launch_i3(self):
