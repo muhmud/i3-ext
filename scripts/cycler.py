@@ -183,7 +183,7 @@ class Cycler:
             switching = self.switching
             if not self.switching:
                 self.switching = True
-                    
+                
             # Find the next item index that should have focus
             item_index = self._find_next_item(switching, live_items, forward)
 

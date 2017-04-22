@@ -15,6 +15,7 @@ class FocusWatcher:
     def __init__(self):
         self.i3 = i3ipc.Connection()
         self.i3.on('workspace::focus', self.on_workspace_focus)
+        self.i3.on('workspace::init', self.on_workspace_focus)
         self.i3.on('key_release', self.on_key_release)
         self.listening_socket = socket.socket(socket.AF_UNIX,
             socket.SOCK_STREAM)
@@ -26,10 +27,10 @@ class FocusWatcher:
 
     def _focus_workspace(self, workspace_id):
         # Set focus to the workspace
-        self.i3.command('[con_id=%s] focus' % workspace_id)
+        self.i3.command('workspace %s' % workspace_id)
         
     def on_workspace_focus(self, i3conn, event):
-        workspace_id = event.current.props.id
+        workspace_id = event.current.props.name
         self.cycler.add(workspace_id)
  
     def on_key_release(self, i3conn, event):
@@ -56,8 +57,8 @@ class FocusWatcher:
             if forward or reverse:
                 # Get a list of all live workspaces
                 tree = self.i3.get_tree()
-                workspaces = set(w.id for w in tree.workspaces())
-                
+                workspaces = set(w.name for w in tree.workspaces())
+
                 # Find the next window to cycle to
                 workspace_id = self.cycler.switch(workspaces, forward)
 
